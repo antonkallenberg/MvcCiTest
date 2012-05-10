@@ -1,4 +1,4 @@
 MvcCiTest
 =========
 
-Playground for playing around with jenkins and different build systems
+Playground for playing around with CI, test and different build systems
