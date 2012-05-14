@@ -1,0 +1,4 @@
+
+*.suo
+/MvcCiTest/bin/EntityFramework.xml
+/MvcCiTest/obj/Debug/MvcCiTest.csproj.FileListAbsolute.txt
