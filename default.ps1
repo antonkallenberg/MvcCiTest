@@ -7,18 +7,7 @@ task default -depends CopyFiles
 task CopyFiles -depends Test {
 	$source = '.\MvcCiTest'
 	$destination = '.\Build'
-	$excludeFiles = @('*.pdb','*.cs','*.csproj','*.csproj.user','*.sln','.gitignore')
-	
-	$items = get-childitem $source -recurse -exclude $excludeFiles
-    foreach ($item in $items)
-    {
-        $target = join-path $destination $item.FullName.Substring($source.Length)
-        $doesTargetExist = -not($item.PSIsContainer -and (test-path($target)));
-		if ($doesTargetExist)
-        {
-            copy-item -path $item.FullName -destination $target
-        }
-    }
+	robocopy $source $destination /MIR /XD obj /XF *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore
 }
 
 task Test -depends Compile, Setup { 
@@ -27,6 +16,7 @@ task Test -depends Compile, Setup {
 
 task Compile -depends Setup { 
   msbuild /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
+  .\MvcCiTest\bundler\node.exe ".\MvcCiTest\bundler\bundler.js" ".\MvcCiTest\Content" ".\MvcCiTest\Scripts"
 }
 
 task Setup { 
