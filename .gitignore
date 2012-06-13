@@ -2,6 +2,7 @@
 bin
 *.suo
 obj
+Build
 
 # mstest test results
 TestResults
