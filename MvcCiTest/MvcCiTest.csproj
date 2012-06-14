@@ -160,7 +160,7 @@
     <Content Include="Global.asax" />
     <Content Include="README.txt" />
     <Content Include="Scripts\App\Bootstrapper.js" />
-    <Content Include="Scripts\App\Home.js" />
+    <Content Include="Scripts\App\HomePage.js" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.5.1.js" />
     <Content Include="Scripts\jquery-1.5.1.min.js" />
@@ -214,6 +214,7 @@
     <None Include="bundler\node_modules\less\package.json" />
     <None Include="bundler\node_modules\sass\package.json" />
     <None Include="bundler\node_modules\step\package.json" />
+    <None Include="Scripts\App\AboutPage.coffee" />
     <None Include="Scripts\App\app.js.bundle" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
