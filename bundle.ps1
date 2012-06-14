@@ -1,0 +1,1 @@
+.\MvcCiTest\bundler\node.exe ".\MvcCiTest\bundler\bundler.js" ".\MvcCiTest\Content" ".\MvcCiTest\Scripts"
