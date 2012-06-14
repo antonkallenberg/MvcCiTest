@@ -35,12 +35,15 @@ HomePage.prototype.init = function () {
 
   this.AboutPage = (function() {
 
+    AboutPage.name = 'AboutPage';
+
     function AboutPage() {}
 
     AboutPage.prototype.init = function() {
-      return $("h2").css({
+      $("h2").css({
         color: 'green'
       });
+      return alert('hello');
     };
 
     return AboutPage;

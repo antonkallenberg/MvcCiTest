@@ -2,6 +2,8 @@
 
   this.AboutPage = (function() {
 
+    AboutPage.name = 'AboutPage';
+
     function AboutPage() {}
 
     AboutPage.prototype.init = function() {
