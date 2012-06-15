@@ -10,13 +10,28 @@
     <RecentFiles>
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/d:Home/f:Index.cshtml" caret="205" fromTop="8" />
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Controllers/f:HomeController.cs" caret="201" fromTop="9" />
-      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:app.js.bundle" caret="46" fromTop="2" />
-      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/d:Shared/f:_Layout.cshtml" caret="0" fromTop="0" />
-      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:AboutPage.coffee" caret="51" fromTop="1" />
       <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.boo/l:C!?Projects?MvcCiTest?Phantom?build.boo" caret="0" fromTop="0" />
-      <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.bat/l:C!?Projects?MvcCiTest?build.bat" caret="118" fromTop="0" />
+      <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.bat/l:C!?Projects?MvcCiTest?build.bat" caret="63" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/f:_ViewStart.cshtml" caret="0" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Global.asax.cs" caret="0" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Web.config" caret="2716" fromTop="60" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/d:Shared/f:_Layout.cshtml" caret="408" fromTop="13" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:app.js.bundle" caret="22" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Mvc.Bundler.cs" caret="744" fromTop="23" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:AboutPage.coffee" caret="46" fromTop="1" />
     </RecentFiles>
-    <RecentEdits />
+    <RecentEdits>
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Mvc.Bundler.cs" caret="13" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Global.asax.cs" caret="522" fromTop="22" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Global.asax.cs" caret="0" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Web.config" caret="2716" fromTop="31" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/d:Shared/f:_Layout.cshtml" caret="25" fromTop="1" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Mvc.Bundler.cs" caret="6700" fromTop="25" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Mvc.Bundler.cs" caret="6876" fromTop="26" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:app.js.bundle" caret="22" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/d:Shared/f:_Layout.cshtml" caret="212" fromTop="7" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:AboutPage.coffee" caret="55" fromTop="1" />
+    </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>
     <NAntPath value="" />
@@ -29,4 +44,21 @@
     </NUnitInstallDir>
     <UseAddins>Never</UseAddins>
   </UnitTestRunnerNUnit>
+  <CompletionStatisticsManager>
+    <ItemStatistics item="Default">
+      <Item value="Bundler`0" priority="0" />
+      <Item value="using" priority="0" />
+      <Item value="ServiceStack" priority="0" />
+      <Item value="Mvc" priority="0" />
+      <Item value="BundleOptions`0" priority="0" />
+      <Item value="new" priority="0" />
+      <Item value="dynamic" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:@ServiceStack.Mvc.BundleOptions">
+      <Item value="MinifiedAndCombined" priority="0" />
+    </ItemStatistics>
+    <ItemStatistics item="Qualified:System.Web.Mvc.HtmlHelper">
+      <Item value="RenderJsBundle`0" priority="0" />
+    </ItemStatistics>
+  </CompletionStatisticsManager>
 </Configuration>

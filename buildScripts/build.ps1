@@ -1,7 +1,8 @@
 properties {
-  $configuration = "Release"
-  $source = '.\MvcCiTest'
-  $destination = '.\Build'
+  $configuration = 'Release'
+  $source = '..\MvcCiTest'
+  $destination = '..\Build'
+  $sln = '..\MvcCiTest.sln'
 }
 
 task default -depends CopyFiles
@@ -15,12 +16,12 @@ task Test -depends Compile, Setup {
 }
 
 task Compile -depends Setup { 
-  msbuild /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
-  .\MvcCiTest\bundler\node.exe "$source\bundler\bundler.js" "$source\Content" "$source\Scripts"
+  msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
+  ..\MvcCiTest\bundler\node.exe "$source\bundler\bundler.js" "$source\Content" "$source\Scripts"
 }
 
 task Setup { 
-	if ((Test-Path -path .\Build)) {
+	if ((Test-Path -path $destination)) {
 		dir $destination -recurse | where {!@(dir -force $_.fullname)} | rm -whatif
 		Remove-Item $destination -Recurse	
 	}

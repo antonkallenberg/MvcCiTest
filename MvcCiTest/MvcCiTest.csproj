@@ -159,6 +159,9 @@
     <Content Include="Content\themes\base\jquery.ui.theme.css" />
     <Content Include="Global.asax" />
     <Content Include="README.txt" />
+    <Content Include="Scripts\App\AboutPage.js">
+      <DependentUpon>AboutPage.coffee</DependentUpon>
+    </Content>
     <Content Include="Scripts\App\Bootstrapper.js" />
     <Content Include="Scripts\App\HomePage.js" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />

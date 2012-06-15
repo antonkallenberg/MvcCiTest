@@ -40,10 +40,9 @@ HomePage.prototype.init = function () {
     function AboutPage() {}
 
     AboutPage.prototype.init = function() {
-      $("h2").css({
+      return $("h2").css({
         color: 'green'
       });
-      return alert('hello');
     };
 
     return AboutPage;
