@@ -3,6 +3,7 @@ properties {
   $source = '..\MvcCiTest'
   $destination = '..\..\Build'
   $sln = '..\MvcCiTest.sln'
+  $specsBaseDir = '..\MvcCiTest.Tests.Mspec' 
 }
 
 task default -depends CopyFiles
@@ -12,7 +13,7 @@ task CopyFiles -depends Test {
 }
 
 task Test -depends Compile, Setup { 
-  
+	exec { ..\packages\Machine.Specifications.0.5.7\tools\mspec-clr4.exe "$specsBaseDir\bin\$configuration\MvcCiTest.Tests.Mspec.dll" }
 }
 
 task Compile -depends Setup { 

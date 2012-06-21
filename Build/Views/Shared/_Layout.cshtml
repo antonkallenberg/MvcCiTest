@@ -1,0 +1,34 @@
+﻿@using ServiceStack.Mvc
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    @Html.RenderCssBundle("~/Content/App/app.css.bundle", BundleOptions.MinifiedAndCombined)
+    @Html.RenderJsBundle("~/Scripts/App/app.js.bundle", BundleOptions.MinifiedAndCombined)
+</head>
+<body id="@ViewBag.BodyId">
+    <div class="page">
+        <header>
+            <div id="title">
+                <h1>My MVC Application</h1>
+            </div>
+            <div id="logindisplay">
+                @Html.Partial("_LogOnPartial")
+            </div>
+            <nav>
+                <ul id="menu">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                </ul>
+            </nav>
+        </header>
+        <section id="main">
+            @RenderBody()
+        </section>
+        <footer>
+        </footer>
+    </div>
+</body>
+</html>
