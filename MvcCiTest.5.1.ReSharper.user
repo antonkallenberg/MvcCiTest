@@ -10,8 +10,6 @@
     <RecentFiles>
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/d:Home/f:Index.cshtml" caret="205" fromTop="8" />
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Controllers/f:HomeController.cs" caret="201" fromTop="9" />
-      <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.boo/l:C!?Projects?MvcCiTest?Phantom?build.boo" caret="0" fromTop="0" />
-      <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.bat/l:C!?Projects?MvcCiTest?build.bat" caret="63" fromTop="0" />
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Views/f:_ViewStart.cshtml" caret="0" fromTop="0" />
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Global.asax.cs" caret="0" fromTop="0" />
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Web.config" caret="2716" fromTop="60" />
@@ -19,6 +17,7 @@
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:app.js.bundle" caret="22" fromTop="0" />
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Mvc.Bundler.cs" caret="744" fromTop="23" />
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Scripts/d:App/f:AboutPage.coffee" caret="46" fromTop="1" />
+      <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.bat/l:C!?Projects?MvcCiTest?build.bat" caret="0" fromTop="0" />
     </RecentFiles>
     <RecentEdits>
       <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Mvc.Bundler.cs" caret="13" fromTop="0" />

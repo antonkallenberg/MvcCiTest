@@ -6,9 +6,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F568C691-996B-406B-9A90-57106C906A9E}"
 	ProjectSection(SolutionItems) = preProject
 		build.bat = build.bat
-		Phantom\build.boo = Phantom\build.boo
-		build.ps1 = build.ps1
-		bundle.ps1 = bundle.ps1
+		buildScripts\build.ps1 = buildScripts\build.ps1
+		buildScripts\bundle.ps1 = buildScripts\bundle.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCiTest.Tests", "MvcCiTest.Tests\MvcCiTest.Tests.csproj", "{618B3A8D-6B57-46EE-AC64-7E424D27E627}"

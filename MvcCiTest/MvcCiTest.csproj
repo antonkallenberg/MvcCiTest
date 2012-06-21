@@ -217,6 +217,11 @@
     <None Include="bundler\node_modules\less\package.json" />
     <None Include="bundler\node_modules\sass\package.json" />
     <None Include="bundler\node_modules\step\package.json" />
+    <None Include="Content\App\app.css.bundle" />
+    <None Include="Content\App\Home.less">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+    </None>
     <None Include="Scripts\App\AboutPage.coffee" />
     <None Include="Scripts\App\app.js.bundle" />
   </ItemGroup>
