@@ -1,35 +1,49 @@
+include .\ftp-ls.ps1
+include .\util.ps1
+
 properties {
 	$label = ([DateTime]::Now.ToString("yyyy-MM-dd_HH-mm-ss"))
 	$configuration = 'Release'
 	$environment = 'Debug'
-	$source = '..\MvcCiTest'
-	$destinationRoot = "..\..\Build"
-	$destination = "$destinationRoot\$label"
-	$sln = '..\MvcCiTest.sln'
-	$specsRoot = '..\MvcCiTest.Tests.Mspec'
 	$specsAssemblyName = "MvcCiTest.Tests.Mspec"
 	$cssFilesRoot = "Content"
 	$scriptFilesRoot = "Scripts"
+	
+	$source = '..\MvcCiTest'
+	$destinationRoot = "..\..\Deploy\Build"	
+	$sln = '..\MvcCiTest.sln'
+	$specsRoot = '..\MvcCiTest.Tests.Mspec'
+	$tools = '..\tools'
+	$backupRoot = "..\..\Deploy\Backup\$label"
+	
+	$stagingFtpUri = 'ftp://127.0.0.1:55/'
+	$stagingFtpWwwRoot = "$stagingFtpUri/www/"
+	$stagingFtpUser = 'anton'
+	$stagingFtpPass = 'anton'
 }
 
 task Default -depends CopyFiles
 
-task Staging -depends CopyFilesToStagingFtp 
+task Staging -depends DeployWebToStagingFtp 
 
-task CopyFilesToStagingFtp  -depends MergeConfiguration {
-	Write-Host "copy to ftp"
+task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
+	Set-ExecutionPolicy bypass
+	$path = Resolve-Path $destinationRoot
+	UploadToFtp $path $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass 
+}
+
+task BackupWebAtStagingFtp -depends MergeConfiguration {
+	$tempFolder  = Get-Item env:temp;
+	$source = Resolve-Path $backupRoot
+	DownloadFromFtp $source $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass
 }
 
 task MergeConfiguration -depends CopyFiles { 
-	Exec {
-		robocopy "$source\Configurations\$environment\" $destination /E
-	}
+	robocopy "$source\Configurations\$environment\" $destinationRoot /E	
 }
 
 task CopyFiles -depends Test {
-	Exec { 
-		robocopy $source $destination /MIR /XD obj bundler Configurations Properties /XF *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
-	}
+	robocopy $source $destinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
 }
 
 task Test -depends Compile, Setup { 
@@ -40,17 +54,14 @@ task Test -depends Compile, Setup {
 
 task Compile -depends Setup { 
 	Exec {
-		msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
-		..\MvcCiTest\bundler\node.exe "$source\bundler\bundler.js" "$source\$cssFilesRoot" "$source\$scriptFilesRoot"
+		msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo	
 	}
+	&"$source\bundler\node.exe" "$source\bundler\bundler.js" "$source\$cssFilesRoot" "$source\$scriptFilesRoot"
 }
 
 task Setup { 
-	if ((Test-Path -path $destinationRoot)) {
-		dir $destinationRoot -recurse | where {!@(dir -force $_.fullname)} | rm -whatif
-		Remove-Item $destinationRoot -Recurse	
-	}
-	New-Item -Path "$destination" -ItemType "directory"
+	TryCreateFolder $destinationRoot
+	TryCreateFolder $backupRoot
 }
 
 task ? -Description "Helper to display task info" {
