@@ -1,7 +1,7 @@
 properties {
   $configuration = 'Release'
   $source = '..\MvcCiTest'
-  $destination = '..\Build'
+  $destination = '..\..\Build'
   $sln = '..\MvcCiTest.sln'
 }
 

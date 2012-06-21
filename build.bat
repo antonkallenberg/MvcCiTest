@@ -1,1 +1,1 @@
-powershell .\buildScripts\psake.ps1 ".\buildScripts\build.ps1" "default" "4.0"
+powershell .\src\buildScripts\psake.ps1 ".\src\buildScripts\build.ps1" "default" "4.0"
