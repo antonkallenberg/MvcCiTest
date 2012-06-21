@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		buildScripts\bundle.ps1 = buildScripts\bundle.ps1
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCiTest.Tests", "MvcCiTest.Tests\MvcCiTest.Tests.csproj", "{618B3A8D-6B57-46EE-AC64-7E424D27E627}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCiTest.Tests.Mspec", "MvcCiTest.Tests.Mspec\MvcCiTest.Tests.Mspec.csproj", "{D24C297F-55C5-4A53-8C01-38237FEE875C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{9CE40E9E-794C-41F9-8588-B55F8EAE9B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CE40E9E-794C-41F9-8588-B55F8EAE9B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CE40E9E-794C-41F9-8588-B55F8EAE9B54}.Release|Any CPU.Build.0 = Release|Any CPU
-		{618B3A8D-6B57-46EE-AC64-7E424D27E627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{618B3A8D-6B57-46EE-AC64-7E424D27E627}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{618B3A8D-6B57-46EE-AC64-7E424D27E627}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{618B3A8D-6B57-46EE-AC64-7E424D27E627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24C297F-55C5-4A53-8C01-38237FEE875C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24C297F-55C5-4A53-8C01-38237FEE875C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24C297F-55C5-4A53-8C01-38237FEE875C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24C297F-55C5-4A53-8C01-38237FEE875C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
