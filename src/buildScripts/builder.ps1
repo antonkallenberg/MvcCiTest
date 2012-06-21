@@ -1,6 +1,6 @@
 Set-ExecutionPolicy bypass
 include .\ftp-ls.ps1
-include .\util.ps1
+include .\utils.ps1
 
 properties {
 	$label = ([DateTime]::Now.ToString("yyyy-MM-dd_HH-mm-ss"))
