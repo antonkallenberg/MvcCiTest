@@ -1,9 +1,9 @@
 properties {
-  $configuration = 'Release'
-  $source = '..\MvcCiTest'
-  $destination = '..\..\Build'
-  $sln = '..\MvcCiTest.sln'
-  $specsBaseDir = '..\MvcCiTest.Tests.Mspec' 
+	$configuration = 'Release'
+	$source = '..\MvcCiTest'
+	$destination = '..\..\Build'
+	$sln = '..\MvcCiTest.sln'
+	$specsBaseDir = '..\MvcCiTest.Tests.Mspec' 
 }
 
 task default -depends CopyFiles
@@ -17,8 +17,8 @@ task Test -depends Compile, Setup {
 }
 
 task Compile -depends Setup { 
-  msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
-  ..\MvcCiTest\bundler\node.exe "$source\bundler\bundler.js" "$source\Content" "$source\Scripts"
+	msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
+	..\MvcCiTest\bundler\node.exe "$source\bundler\bundler.js" "$source\Content" "$source\Scripts"
 }
 
 task Setup { 
