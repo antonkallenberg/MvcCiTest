@@ -1,3 +1,4 @@
+Set-ExecutionPolicy bypass
 include .\ftp-ls.ps1
 include .\util.ps1
 
@@ -14,10 +15,12 @@ properties {
 	$sln = '..\MvcCiTest.sln'
 	$specsRoot = '..\MvcCiTest.Tests.Mspec'
 	$tools = '..\tools'
-	$backupRoot = "..\..\Deploy\Backup\$label"
+	$backupRoot = "..\..\Deploy\Backup"
+	$backupPath = "..\..\Deploy\Backup\$label"
 	
 	$stagingFtpUri = 'ftp://127.0.0.1:55/'
 	$stagingFtpWwwRoot = "$stagingFtpUri/www/"
+	$stagingFtpBackupRoot = "$stagingFtpUri/backup/"
 	$stagingFtpUser = 'anton'
 	$stagingFtpPass = 'anton'
 }
@@ -27,15 +30,15 @@ task Default -depends CopyFiles
 task Staging -depends DeployWebToStagingFtp 
 
 task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
-	Set-ExecutionPolicy bypass
 	$path = Resolve-Path $destinationRoot
 	UploadToFtp $path $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass 
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
-	$tempFolder  = Get-Item env:temp;
-	$source = Resolve-Path $backupRoot
-	DownloadFromFtp $source $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass
+	$1 = Resolve-Path $backupPath
+	$2 = Resolve-Path $backupRoot
+	DownloadFromFtp $1 $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass
+	UploadToFtp $2 $stagingFtpBackupRoot $stagingFtpUser $stagingFtpPass
 }
 
 task MergeConfiguration -depends CopyFiles { 
@@ -62,6 +65,7 @@ task Compile -depends Setup {
 task Setup { 
 	TryCreateFolder $destinationRoot
 	TryCreateFolder $backupRoot
+	TryCreateFolder $backupPath
 }
 
 task ? -Description "Helper to display task info" {
