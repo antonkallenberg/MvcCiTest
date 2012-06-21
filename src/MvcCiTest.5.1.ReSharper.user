@@ -8,15 +8,35 @@
   </SettingsComponent>
   <RecentFiles>
     <RecentFiles>
-      <File id="D24C297F-55C5-4A53-8C01-38237FEE875C/f:HomeControllerSpecs.cs" caret="687" fromTop="19" />
-      <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.bat/l:C!?Projects?MvcCiTest?build.bat" caret="42" fromTop="0" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:bundle.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?bundle.ps1" caret="0" fromTop="0" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:psake.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?psake.ps1" caret="0" fromTop="0" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:psake.psm1/l:C!?Projects?MvcCiTest?src?buildScripts?psake.psm1" caret="359" fromTop="5" />
+      <File id="D24C297F-55C5-4A53-8C01-38237FEE875C/f:HomeControllerSpecs.cs" caret="364" fromTop="13" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="403" fromTop="17" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Configurations/d:Staging/f:Web.config" caret="23" fromTop="1" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/f:Web.config" caret="21" fromTop="0" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Configurations/d:Staging/d:Licenses/f:License.config" caret="45" fromTop="1" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Licenses/f:License.config" caret="121" fromTop="7" />
     </RecentFiles>
     <RecentEdits>
-      <File id="D24C297F-55C5-4A53-8C01-38237FEE875C/f:HomeControllerSpecs.cs" caret="889" fromTop="25" />
       <File id="D24C297F-55C5-4A53-8C01-38237FEE875C/f:HomeControllerSpecs.cs" caret="531" fromTop="15" />
       <File id="D24C297F-55C5-4A53-8C01-38237FEE875C/f:HomeControllerSpecs.cs" caret="611" fromTop="18" />
       <File id="D24C297F-55C5-4A53-8C01-38237FEE875C/f:HomeControllerSpecs.cs" caret="251" fromTop="10" />
-      <File id="F568C691-996B-406B-9A90-57106C906A9E/f:build.bat/l:C!?Projects?MvcCiTest?build.bat" caret="26" fromTop="0" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="1307" fromTop="15" />
+      <File id="D24C297F-55C5-4A53-8C01-38237FEE875C/f:HomeControllerSpecs.cs" caret="859" fromTop="22" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="1308" fromTop="32" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="1198" fromTop="24" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="1041" fromTop="24" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="846" fromTop="19" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="671" fromTop="15" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="495" fromTop="7" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="203" fromTop="7" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="344" fromTop="12" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="56" fromTop="2" />
+      <File id="1701B4A7-B15F-43AE-9669-4B166D582FE6/f:build.ps1/l:C!?Projects?MvcCiTest?src?buildScripts?build.ps1" caret="488" fromTop="18" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Configurations/d:Staging/f:Web.config" caret="38" fromTop="1" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Configurations/d:Staging/d:Licenses/f:License.config" caret="45" fromTop="1" />
+      <File id="9CE40E9E-794C-41F9-8588-B55F8EAE9B54/d:Licenses/f:License.config" caret="45" fromTop="1" />
     </RecentEdits>
   </RecentFiles>
   <NAntValidationSettings>

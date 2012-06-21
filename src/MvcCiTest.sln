@@ -4,13 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCiTest", "MvcCiTest\MvcCiTest.csproj", "{9CE40E9E-794C-41F9-8588-B55F8EAE9B54}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F568C691-996B-406B-9A90-57106C906A9E}"
-	ProjectSection(SolutionItems) = preProject
-		build.bat = build.bat
-		buildScripts\build.ps1 = buildScripts\build.ps1
-		buildScripts\bundle.ps1 = buildScripts\bundle.ps1
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcCiTest.Tests.Mspec", "MvcCiTest.Tests.Mspec\MvcCiTest.Tests.Mspec.csproj", "{D24C297F-55C5-4A53-8C01-38237FEE875C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildScripts", "BuildScripts", "{1701B4A7-B15F-43AE-9669-4B166D582FE6}"
+	ProjectSection(SolutionItems) = preProject
+		buildScripts\build.ps1 = buildScripts\build.ps1
+		buildScripts\bundle.ps1 = buildScripts\bundle.ps1
+		buildScripts\psake.ps1 = buildScripts\psake.ps1
+		buildScripts\psake.psm1 = buildScripts\psake.psm1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,5 +32,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1701B4A7-B15F-43AE-9669-4B166D582FE6} = {F568C691-996B-406B-9A90-57106C906A9E}
 	EndGlobalSection
 EndGlobal
