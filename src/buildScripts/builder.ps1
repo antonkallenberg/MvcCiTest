@@ -3,20 +3,23 @@ include .\ftp-ls.ps1
 include .\utils.ps1
 
 properties {
-	$label = ([DateTime]::Now.ToString("yyyy-MM-dd_HH-mm-ss"))
-	$configuration = 'Release'
-	$environment = 'Debug'
-	$specsAssemblyName = "MvcCiTest.Tests.Mspec"
-	$cssFilesRoot = "Content"
-	$scriptFilesRoot = "Scripts"
+	$DateLabel = ([DateTime]::Now.ToString("yyyy-MM-dd_HH-mm-ss"))
 	
-	$source = '..\MvcCiTest'
-	$destinationRoot = "..\..\Deploy\Build"	
-	$sln = '..\MvcCiTest.sln'
-	$specsRoot = '..\MvcCiTest.Tests.Mspec'
-	$tools = '..\tools'
-	$backupRoot = "..\..\Deploy\Backup"
-	$backupPath = "..\..\Deploy\Backup\$label"
+	$BuildConfiguration = 'Release'
+	$TargetEnvironment = 'Debug'
+	
+	$CssFilesRoot = "Content"
+	$WebScriptFilesRoot = "Scripts"
+	
+	$MspecTestsRoot = '..\MvcCiTest.Tests.Mspec'
+	$MspecAssemblyName = "MvcCiTest.Tests.Mspec"
+	
+	$ApplicationBackupRoot = "..\..\Deploy\Backup"
+	$ApplicationBackupRootWithDateLabel = "..\..\Deploy\Backup\$DateLabel"
+	
+	$BuildOutputDestinationRoot = "..\..\Deploy\Build"	
+	$ApplicationSource = '..\MvcCiTest'
+	$ApplicationSlnFile = '..\MvcCiTest.sln'
 	
 	$stagingFtpUri = 'ftp://127.0.0.1:55/'
 	$stagingFtpWwwRoot = "$stagingFtpUri/www/"
@@ -30,42 +33,42 @@ task Default -depends CopyFiles
 task Staging -depends DeployWebToStagingFtp 
 
 task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
-	$path = Resolve-Path $destinationRoot
+	$path = Resolve-Path $BuildOutputDestinationRoot
 	UploadToFtp $path $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass 
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
-	$1 = Resolve-Path $backupPath
-	$2 = Resolve-Path $backupRoot
+	$1 = Resolve-Path $ApplicationBackupRootWithDateLabel
+	$2 = Resolve-Path $ApplicationBackupRoot
 	DownloadFromFtp $1 $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass
 	UploadToFtp $2 $stagingFtpBackupRoot $stagingFtpUser $stagingFtpPass
 }
 
 task MergeConfiguration -depends CopyFiles { 
-	robocopy "$source\Configurations\$environment\" $destinationRoot /E	
+	robocopy "$ApplicationSource\Configurations\$TargetEnvironment\" $BuildOutputDestinationRoot /E	
 }
 
 task CopyFiles -depends Test {
-	robocopy $source $destinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
+	robocopy $ApplicationSource $BuildOutputDestinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
 }
 
 task Test -depends Compile, Setup { 
 	Exec { 
-		..\packages\Machine.Specifications.0.5.7\tools\mspec-clr4.exe "$specsRoot\bin\$configuration\$specsAssemblyName.dll" 
+		..\packages\Machine.Specifications.0.5.7\tools\mspec-clr4.exe "$MspecTestsRoot\bin\$BuildConfiguration\$MspecAssemblyName.dll" 
 	}
 }
 
 task Compile -depends Setup { 
 	Exec {
-		msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo	
+		msbuild $ApplicationSlnFile /t:Clean /t:Build /p:Configuration=$BuildConfiguration /v:q /nologo	
 	}
-	&"$source\bundler\node.exe" "$source\bundler\bundler.js" "$source\$cssFilesRoot" "$source\$scriptFilesRoot"
+	&"$ApplicationSource\bundler\node.exe" "$ApplicationSource\bundler\bundler.js" "$ApplicationSource\$CssFilesRoot" "$ApplicationSource\$WebScriptFilesRoot"
 }
 
 task Setup { 
-	TryCreateFolder $destinationRoot
-	TryCreateFolder $backupRoot
-	TryCreateFolder $backupPath
+	TryCreateFolder $BuildOutputDestinationRoot
+	TryCreateFolder $ApplicationBackupRoot
+	TryCreateFolder $ApplicationBackupRootWithDateLabel
 }
 
 task ? -Description "Helper to display task info" {
