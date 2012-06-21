@@ -1,10 +1,15 @@
 properties {
+	$label = ([DateTime]::Now.ToString("yyyy-MM-dd_HH-mm-ss"))
 	$configuration = 'Release'
 	$environment = 'Debug'
 	$source = '..\MvcCiTest'
-	$destination = '..\..\Build'
+	$destinationRoot = "..\..\Build"
+	$destination = "$destinationRoot\$label"
 	$sln = '..\MvcCiTest.sln'
-	$specsBaseDir = '..\MvcCiTest.Tests.Mspec' 
+	$specsRoot = '..\MvcCiTest.Tests.Mspec'
+	$specsAssemblyName = "MvcCiTest.Tests.Mspec"
+	$cssFilesRoot = "Content"
+	$scriptFilesRoot = "Scripts"
 }
 
 task Default -depends CopyFiles
@@ -16,28 +21,36 @@ task CopyFilesToStagingFtp  -depends MergeConfiguration {
 }
 
 task MergeConfiguration -depends CopyFiles { 
-	robocopy "$source\Configurations\$environment\" $destination /E
+	Exec {
+		robocopy "$source\Configurations\$environment\" $destination /E
+	}
 }
 
 task CopyFiles -depends Test {
-	robocopy $source $destination /MIR /XD obj bundler Configurations Properties /XF *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
+	Exec { 
+		robocopy $source $destination /MIR /XD obj bundler Configurations Properties /XF *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
+	}
 }
 
 task Test -depends Compile, Setup { 
-	exec { ..\packages\Machine.Specifications.0.5.7\tools\mspec-clr4.exe "$specsBaseDir\bin\$configuration\MvcCiTest.Tests.Mspec.dll" }
+	Exec { 
+		..\packages\Machine.Specifications.0.5.7\tools\mspec-clr4.exe "$specsRoot\bin\$configuration\$specsAssemblyName.dll" 
+	}
 }
 
 task Compile -depends Setup { 
-	msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
-	..\MvcCiTest\bundler\node.exe "$source\bundler\bundler.js" "$source\Content" "$source\Scripts"
+	Exec {
+		msbuild $sln /t:Clean /t:Build /p:Configuration=$configuration /v:q /nologo
+		..\MvcCiTest\bundler\node.exe "$source\bundler\bundler.js" "$source\$cssFilesRoot" "$source\$scriptFilesRoot"
+	}
 }
 
 task Setup { 
-	if ((Test-Path -path $destination)) {
-		dir $destination -recurse | where {!@(dir -force $_.fullname)} | rm -whatif
-		Remove-Item $destination -Recurse	
+	if ((Test-Path -path $destinationRoot)) {
+		dir $destinationRoot -recurse | where {!@(dir -force $_.fullname)} | rm -whatif
+		Remove-Item $destinationRoot -Recurse	
 	}
-	New-Item -Path $destination -ItemType "directory"
+	New-Item -Path "$destination" -ItemType "directory"
 }
 
 task ? -Description "Helper to display task info" {
