@@ -21,11 +21,11 @@ properties {
 	$ApplicationSource = '..\MvcCiTest'
 	$ApplicationSlnFile = '..\MvcCiTest.sln'
 	
-	$stagingFtpUri = 'ftp://127.0.0.1:55/'
-	$stagingFtpWwwRoot = "$stagingFtpUri/www/"
-	$stagingFtpBackupRoot = "$stagingFtpUri/backup/"
-	$stagingFtpUser = 'anton'
-	$stagingFtpPass = 'anton'
+	$StagingFtpUri = 'ftp://127.0.0.1:55/'
+	$StagingFtpWwwRoot = "$StagingFtpUri/www/"
+	$StagingFtpBackupRoot = "$StagingFtpUri/backup/"
+	$StagingFtpUsername = 'anton'
+	$StagingFtpPassword = 'anton'
 }
 
 task Default -depends CopyFiles
@@ -34,14 +34,14 @@ task Staging -depends DeployWebToStagingFtp
 
 task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
 	$path = Resolve-Path $BuildOutputDestinationRoot
-	UploadToFtp $path $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass 
+	UploadToFtp $path $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
 	$1 = Resolve-Path $ApplicationBackupRootWithDateLabel
 	$2 = Resolve-Path $ApplicationBackupRoot
-	DownloadFromFtp $1 $stagingFtpWwwRoot $stagingFtpUser $stagingFtpPass
-	UploadToFtp $2 $stagingFtpBackupRoot $stagingFtpUser $stagingFtpPass
+	DownloadFromFtp $1 $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword
+	UploadToFtp $2 $StagingFtpBackupRoot $StagingFtpUsername $StagingFtpPassword
 }
 
 task MergeConfiguration -depends CopyFiles { 
