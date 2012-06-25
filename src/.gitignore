@@ -3,6 +3,8 @@ bin
 *.suo
 obj
 Build
+*.ReSharper.user
+*.sln.cache
 
 # mstest test results
 TestResults
