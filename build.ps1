@@ -4,7 +4,7 @@ param(
     $Environment
 )
 
-function build() {	
+function Build() {	
 	if([string]::IsNullOrEmpty($Environment) -or $Environment -ieq 'debug') {
 		powershell .\src\buildScripts\psake.ps1 ".\src\buildScripts\builder.ps1 -properties @{BuildConfiguration='Debug'}" "Default" "4.0"
 	}
@@ -14,4 +14,4 @@ function build() {
 	Write-Host "$Environment build done!"
 }
 
-build
+Build

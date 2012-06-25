@@ -34,15 +34,15 @@ task Staging -depends DeployWebToStagingFtp
 
 task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
 	$path = Resolve-Path $BuildOutputDestinationRoot
-	#DeleteFromFtp $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
-	UploadToFtp $path $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
+	Delete-FromFtp $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
+	Upload-ToFtp $path $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
 	$1 = Resolve-Path $ApplicationBackupRootWithDateLabel
 	$2 = Resolve-Path $ApplicationBackupRoot
-	DownloadFromFtp $1 $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword
-	UploadToFtp $2 $StagingFtpBackupRoot $StagingFtpUsername $StagingFtpPassword
+	Download-FromFtp $1 $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword
+	Upload-ToFtp $2 $StagingFtpBackupRoot $StagingFtpUsername $StagingFtpPassword
 }
 
 task MergeConfiguration -depends CopyFiles { 
