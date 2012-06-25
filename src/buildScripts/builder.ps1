@@ -5,7 +5,7 @@ include .\utils.ps1
 properties {
 	$DateLabel = ([DateTime]::Now.ToString("yyyy-MM-dd_HH-mm-ss"))
 	
-	$BuildConfiguration = 'Release'
+	$BuildConfiguration = 'Debug'
 	$TargetEnvironment = 'Debug'
 	
 	$CssFilesRoot = "Content"
@@ -34,6 +34,7 @@ task Staging -depends DeployWebToStagingFtp
 
 task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
 	$path = Resolve-Path $BuildOutputDestinationRoot
+	#DeleteFromFtp $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
 	UploadToFtp $path $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
 }
 
@@ -67,8 +68,10 @@ task Compile -depends Setup {
 
 task Setup { 
 	TryCreateFolder $BuildOutputDestinationRoot
-	TryCreateFolder $ApplicationBackupRoot
-	TryCreateFolder $ApplicationBackupRootWithDateLabel
+	if (!($TargetEnvironment -ieq 'debug')) {
+		TryCreateFolder $ApplicationBackupRoot
+		TryCreateFolder $ApplicationBackupRootWithDateLabel
+	}
 }
 
 task ? -Description "Helper to display task info" {

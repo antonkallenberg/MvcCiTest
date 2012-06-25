@@ -1,9 +1,53 @@
-function DownloadFromFtp($destination, $ftp_uri, $user, $pass){
+function UploadToFtp($artifacts, $ftpUri, $user, $pass) {
+    $webclient = New-Object System.Net.WebClient 
+    $webclient.Credentials = New-Object System.Net.NetworkCredential($user,$pass)  
 
-    $dirs = GetDirecoryTree $ftp_uri $user $pass
-    
+	Write-Host $artifacts
+    foreach($item in Get-ChildItem -recurse $artifacts){ 
+        $relpath = [system.io.path]::GetFullPath($item.FullName).SubString([system.io.path]::GetFullPath($artifacts).Length + 1)
+
+        if ($item.Attributes -eq "Directory"){
+            try{
+                Write-Host Creating $item.Name
+                
+                $makeDirectory = [System.Net.WebRequest]::Create($ftpUri+$relpath);
+                $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($user,$pass) 
+                $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
+                $makeDirectory.GetResponse();
+            }catch [Net.WebException] {
+                Write-Host $item.Name probably exists ...
+            }
+            continue;
+        }
+        "Uploading $item..."
+        $uri = New-Object System.Uri($ftpUri+$relpath) 
+        $webclient.UploadFile($uri, $item.FullName)
+    }
+}
+
+function DeleteFromFtp($ftpUri, $user, $pass) {
+	$dirs = Get-DirecoryTree $ftpUri $user $pass
+	foreach($dir in $dirs) {
+		$source = [io.path]::Combine($ftpUri, $dir)
+		$files = Get-FilesTree $source $user $pass
+		foreach($file in $files){
+			$sourceFile = [io.path]::Combine($source, $file)
+			Delete-FTPFile $sourceFile $user $pass
+		}
+		
+		Delete-Directory $source $user $pass
+    }
+	$files = Get-FilesTree $ftpUri $user $pass
+	foreach($file in $files){
+        $source = [io.path]::Combine($ftpUri, $file)
+        Delete-FTPFile $source $user $pass
+    }
+}
+
+function DownloadFromFtp($destination, $ftpUri, $user, $pass) {
+    $dirs = Get-DirecoryTree $ftpUri $user $pass
     foreach($dir in $dirs){
-       $path = [io.path]::Combine($destination,$dir)
+       $path = [io.path]::Combine($destination, $dir)
        
        if ((Test-Path $path) -eq $false) {
           "Creating $path ..."
@@ -13,10 +57,9 @@ function DownloadFromFtp($destination, $ftp_uri, $user, $pass){
        }
     }
     
-    $files = GetFilesTree $ftp_uri $user $pass
-    
+    $files = Get-FilesTree $ftpUri $user $pass
     foreach($file in $files){
-        $source = [io.path]::Combine($ftp_uri,$file)
+        $source = [io.path]::Combine($ftpUri,$file)
         $dest = [io.path]::Combine($destination,$file)
         
         "Downloading $source ..."
@@ -24,79 +67,62 @@ function DownloadFromFtp($destination, $ftp_uri, $user, $pass){
     }
 }
 
- function Get-FTPFile ($Source,$Target,$UserName,$Password) 
- { 
-     $ftprequest = [System.Net.FtpWebRequest]::create($Source) 
-     $ftprequest.Credentials = New-Object System.Net.NetworkCredential($username,$password) 
-     $ftprequest.Method = [System.Net.WebRequestMethods+Ftp]::DownloadFile 
-     $ftprequest.UseBinary = $true 
-     $ftprequest.KeepAlive = $false 
-      
-     $ftpresponse = $ftprequest.GetResponse() 
-     $responsestream = $ftpresponse.GetResponseStream() 
-      
-     $targetfile = New-Object IO.FileStream ($Target,[IO.FileMode]::Create) 
-     [byte[]]$readbuffer = New-Object byte[] 1024 
-      
-     do{ 
-         $readlength = $responsestream.Read($readbuffer,0,1024) 
-         $targetfile.Write($readbuffer,0,$readlength) 
-     } 
-     while ($readlength -ne 0) 
-      
-     $targetfile.close() 
- } 
-
-function UploadToFtp($artifacts, $ftp_uri, $user, $pass){
-    $webclient = New-Object System.Net.WebClient 
-    $webclient.Credentials = New-Object System.Net.NetworkCredential($user,$pass)  
-
-	Write-Host $artifacts
-
-    foreach($item in Get-ChildItem -recurse $artifacts){ 
-
-        $relpath = [system.io.path]::GetFullPath($item.FullName).SubString([system.io.path]::GetFullPath($artifacts).Length + 1)
-
-        if ($item.Attributes -eq "Directory"){
-            
-            try{
-                Write-Host Creating $item.Name
-                
-                $makeDirectory = [System.Net.WebRequest]::Create($ftp_uri+$relpath);
-                $makeDirectory.Credentials = New-Object System.Net.NetworkCredential($user,$pass) 
-                $makeDirectory.Method = [System.Net.WebRequestMethods+FTP]::MakeDirectory;
-                $makeDirectory.GetResponse();
-            
-            }catch [Net.WebException] {
-                Write-Host $item.Name probably exists ...
-            }
-
-            continue;
-        }
-        
-        "Uploading $item..."
-        $uri = New-Object System.Uri($ftp_uri+$relpath) 
-        $webclient.UploadFile($uri, $item.FullName)
-    }
+function Delete-FTPFile ($source, $userName, $password) { 
+	Write-Host " deleting $source..."
+	$ftpRequest = [System.Net.FtpWebRequest]::create($source) 
+	$ftpRequest.Credentials = New-Object System.Net.NetworkCredential($userName, $password) 
+	$ftpRequest.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile 
+	$ftpRequest.UseBinary = $true 
+	$ftpRequest.KeepAlive = $false 
+	
+	$ftpResponse = $ftpRequest.GetResponse()
+	"Delete status: {0}" -f $ftpResponse.StatusDescription
 }
 
-#task ListFiles {
-#   
-#    $files = GetFilesTree 'ftp://127.0.0.1/' "web" "web"
-#    $files | ForEach-Object {Write-Host $_ -foregroundcolor cyan}
-#}
-function GetDirecoryTree($ftp, $user, $pass){
-    $creds = New-Object System.Net.NetworkCredential($user,$pass)
+function Delete-Directory ($source, $userName, $password) { 
+	Write-Host " deleting $source..."
+	$ftpRequest = [System.Net.FtpWebRequest]::create($source) 
+	$ftpRequest.Credentials = New-Object System.Net.NetworkCredential($userName, $password) 
+	$ftpRequest.Method = [System.Net.WebRequestMethods+Ftp]::RemoveDirectory 
+	$ftpRequest.UseBinary = $true 
+	$ftpRequest.KeepAlive = $false 
+	
+	$ftpResponse = $ftpRequest.GetResponse()
+	"Delete status: {0}" -f $ftpResponse.StatusDescription
+}
 
+function Get-FTPFile ($source, $target, $userName, $password) { 
+	$ftpRequest = [System.Net.FtpWebRequest]::create($source) 
+	$ftpRequest.Credentials = New-Object System.Net.NetworkCredential($userName, $password) 
+	$ftpRequest.Method = [System.Net.WebRequestMethods+Ftp]::DownloadFile 
+	$ftpRequest.UseBinary = $true 
+	$ftpRequest.KeepAlive = $false 
+
+	$ftpResponse = $ftpRequest.GetResponse() 
+	$responseStream = $ftpResponse.GetResponseStream() 
+
+	$targetFile = New-Object IO.FileStream ($target,[IO.FileMode]::Create) 
+	[byte[]]$readBuffer = New-Object byte[] 1024 
+
+	do{ 
+		$readLength = $responseStream.Read($readBuffer,0,1024) 
+		$targetFile.Write($readBuffer,0,$readLength) 
+	} 
+	while ($readLength -ne 0) 
+
+	$targetFile.close() 
+} 
+
+function Get-DirecoryTree($ftp, $user, $pass) {
+    $creds = New-Object System.Net.NetworkCredential($user, $pass)
     $files = New-Object "system.collections.generic.list[string]"
     $folders = New-Object "system.collections.generic.queue[string]"
     $folders.Enqueue($ftp)
     
-    while($folders.Count -gt 0){
+    while($folders.Count -gt 0) {
         $fld = $folders.Dequeue()
-        
-        $newFiles = GetAllFiles $creds $fld
-        $dirs = GetDirectories $creds $fld
+        $newFiles = Get-AllFiles $creds $fld
+        $dirs = Get-Directories $creds $fld
         
         foreach ($line in $dirs){
             $dir = @($newFiles | Where { $line.EndsWith($_) })[0]
@@ -110,9 +136,8 @@ function GetDirecoryTree($ftp, $user, $pass){
     return ,$files
 }
 
-function GetFilesTree($ftp, $user, $pass){
-    $creds = New-Object System.Net.NetworkCredential($user,$pass)
-
+function Get-FilesTree($ftp, $user, $pass) {
+    $creds = New-Object System.Net.NetworkCredential($user, $pass)
     $files = New-Object "system.collections.generic.list[string]"
     $folders = New-Object "system.collections.generic.queue[string]"
     $folders.Enqueue($ftp)
@@ -120,8 +145,8 @@ function GetFilesTree($ftp, $user, $pass){
     while($folders.Count -gt 0){
         $fld = $folders.Dequeue()
         
-        $newFiles = GetAllFiles $creds $fld
-        $dirs = GetDirectories $creds $fld
+        $newFiles = Get-AllFiles $creds $fld
+        $dirs = Get-Directories $creds $fld
         
         foreach ($line in $dirs){
             $dir = @($newFiles | Where { $line.EndsWith($_) })[0]
@@ -137,11 +162,10 @@ function GetFilesTree($ftp, $user, $pass){
     return ,$files
 }
 
-function GetDirectories($creds, $fld){
+function Get-Directories($creds, $fld) {
     $dirs = New-Object "system.collections.generic.list[string]"
-    
     $operation = [System.Net.WebRequestMethods+Ftp]::ListDirectoryDetails
-    $reader = GetStream $creds $fld $operation
+    $reader = Get-Stream $creds $fld $operation
     while (($line = $reader.ReadLine()) -ne $null) {
        
        if ($line.Trim().ToLower().StartsWith("d") -or $line.Contains(" <DIR> ")) {
@@ -153,11 +177,11 @@ function GetDirectories($creds, $fld){
     return ,$dirs
 }
 
-function GetAllFiles($creds, $fld){
+function Get-AllFiles($creds, $fld) {
     $newFiles = New-Object "system.collections.generic.list[string]"
     $operation = [System.Net.WebRequestMethods+Ftp]::ListDirectory
         
-    $reader = GetStream $creds $fld $operation
+    $reader = Get-Stream $creds $fld $operation
     
     while (($line = $reader.ReadLine()) -ne $null) {
        [void]$newFiles.Add($line.Trim()) 
@@ -167,8 +191,7 @@ function GetAllFiles($creds, $fld){
     return ,$newFiles
 }
 
-function GetStream($creds, $url, $meth){
-
+function Get-Stream($creds, $url, $meth) {
     $ftp = [System.Net.WebRequest]::Create($url)
     $ftp.Credentials = $creds
     $ftp.Method = $meth
@@ -177,4 +200,4 @@ function GetStream($creds, $url, $meth){
     return New-Object IO.StreamReader $response.GetResponseStream()
 }
 
-Export-ModuleMember UploadToFtp, DownloadFromFtp
+Export-ModuleMember UploadToFtp, DownloadFromFtp, DeleteFromFtp
