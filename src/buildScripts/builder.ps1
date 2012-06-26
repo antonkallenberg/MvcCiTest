@@ -1,4 +1,5 @@
 Set-ExecutionPolicy Unrestricted
+Set-ExecutionPolicy bypass
 import-module .\utilities.psm1
 import-module .\ftp.psm1
 
@@ -44,7 +45,10 @@ task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
 task BackupWebAtStagingFtp -depends MergeConfiguration {
 	$1 = Resolve-Path $ApplicationBackupRootWithDateLabel
 	$2 = Resolve-Path $ApplicationBackupRoot
-	#Download-FromFtp $1 $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword
+	
+	Set-FtpConnection $StagingFtpUri $StagingFtpUsername $StagingFtpPassword
+	
+	Get-FromFtp $1 $StagingFtpWwwRoot
 	#Upload-ToFtp $2 $StagingFtpBackupRoot $StagingFtpUsername $StagingFtpPassword
 }
 
