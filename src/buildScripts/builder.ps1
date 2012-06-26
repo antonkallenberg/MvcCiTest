@@ -22,8 +22,8 @@ properties {
 	$ApplicationSlnFile = '..\MvcCiTest.sln'
 	
 	$StagingFtpUri = 'ftp://127.0.0.1:55/'
-	$StagingFtpWwwRoot = "$StagingFtpUri/www/"
-	$StagingFtpBackupRoot = "$StagingFtpUri/backup/"
+	$StagingFtpWwwRoot = "www"
+	$StagingFtpBackupRoot = "backup"
 	$StagingFtpUsername = 'anton'
 	$StagingFtpPassword = 'anton'
 }
@@ -38,7 +38,7 @@ task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
 	#Upload-ToFtp $path $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
     
     Set-FtpConnection $StagingFtpUri $StagingFtpUsername $StagingFtpPassword
-    Send-ToFtp $path
+    Send-ToFtp $path $StagingFtpWwwRoot
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
@@ -49,11 +49,11 @@ task BackupWebAtStagingFtp -depends MergeConfiguration {
 }
 
 task MergeConfiguration -depends CopyFiles { 
-	#robocopy "$ApplicationSource\Configurations\$TargetEnvironment\" $BuildOutputDestinationRoot /E	
+	robocopy "$ApplicationSource\Configurations\$TargetEnvironment\" $BuildOutputDestinationRoot /E	
 }
 
 task CopyFiles -depends Test {
-	#robocopy $ApplicationSource $BuildOutputDestinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
+	robocopy $ApplicationSource $BuildOutputDestinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
 }
 
 task Test -depends Compile, Setup { 
