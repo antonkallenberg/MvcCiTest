@@ -1,6 +1,6 @@
-Set-ExecutionPolicy bypass
-include .\ftp-ls.ps1
-include .\utils.ps1
+Set-ExecutionPolicy Unrestricted
+import-module .\utilities.psm1
+import-module .\ftp.psm1
 
 properties {
 	$DateLabel = ([DateTime]::Now.ToString("yyyy-MM-dd_HH-mm-ss"))
@@ -34,23 +34,26 @@ task Staging -depends DeployWebToStagingFtp
 
 task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
 	$path = Resolve-Path $BuildOutputDestinationRoot
-	Delete-FromFtp $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
-	Upload-ToFtp $path $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
+	#Delete-FromFtp $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
+	#Upload-ToFtp $path $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
+    
+    Set-FtpConnection $StagingFtpUri $StagingFtpUsername $StagingFtpPassword
+    Send-ToFtp $path
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
 	$1 = Resolve-Path $ApplicationBackupRootWithDateLabel
 	$2 = Resolve-Path $ApplicationBackupRoot
-	Download-FromFtp $1 $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword
-	Upload-ToFtp $2 $StagingFtpBackupRoot $StagingFtpUsername $StagingFtpPassword
+	#Download-FromFtp $1 $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword
+	#Upload-ToFtp $2 $StagingFtpBackupRoot $StagingFtpUsername $StagingFtpPassword
 }
 
 task MergeConfiguration -depends CopyFiles { 
-	robocopy "$ApplicationSource\Configurations\$TargetEnvironment\" $BuildOutputDestinationRoot /E	
+	#robocopy "$ApplicationSource\Configurations\$TargetEnvironment\" $BuildOutputDestinationRoot /E	
 }
 
 task CopyFiles -depends Test {
-	robocopy $ApplicationSource $BuildOutputDestinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
+	#robocopy $ApplicationSource $BuildOutputDestinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
 }
 
 task Test -depends Compile, Setup { 
@@ -67,10 +70,10 @@ task Compile -depends Setup {
 }
 
 task Setup { 
-	TryCreateFolder $BuildOutputDestinationRoot
+	Add-FolderIfMissing $BuildOutputDestinationRoot
 	if (!($TargetEnvironment -ieq 'debug')) {
-		TryCreateFolder $ApplicationBackupRoot
-		TryCreateFolder $ApplicationBackupRootWithDateLabel
+		Add-FolderIfMissing $ApplicationBackupRoot
+		Add-FolderIfMissing $ApplicationBackupRootWithDateLabel
 	}
 }
 
