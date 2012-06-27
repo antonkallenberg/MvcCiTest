@@ -34,11 +34,11 @@ task Default -depends CopyFiles
 task Staging -depends DeployWebToStagingFtp 
 
 task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
-	$path = Resolve-Path $BuildOutputDestinationRoot
+	$fullBuildOutputDestinationRoot = Resolve-Path $BuildOutputDestinationRoot
 	
     Set-FtpConnection $StagingFtpUri $StagingFtpUsername $StagingFtpPassword
-	#Delete-FromFtp $StagingFtpWwwRoot $StagingFtpUsername $StagingFtpPassword 
-    Send-ToFtp $path $StagingFtpWwwRoot
+	Remove-FromFtp $StagingFtpWwwRoot
+    Send-ToFtp $fullBuildOutputDestinationRoot $StagingFtpWwwRoot
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
@@ -55,7 +55,7 @@ task MergeConfiguration -depends CopyFiles {
 }
 
 task CopyFiles -depends Test {
-	#robocopy $ApplicationSource $BuildOutputDestinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
+	robocopy $ApplicationSource $BuildOutputDestinationRoot /MIR /XD obj bundler Configurations Properties /XF *.bundle *.coffee *.less *.pdb *.cs *.csproj *.csproj.user *.sln .gitignore README.txt packages.config
 }
 
 task Test -depends Compile, Setup { 
