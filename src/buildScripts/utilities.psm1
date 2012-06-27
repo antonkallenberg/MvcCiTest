@@ -1,7 +1,7 @@
 function Add-FolderIfMissing {
 	param([string]$name)
 	if ((Test-Path -path $name)) {
-		dir $name -recurse | where {!@(dir -force $_.fullname)} | rm -whatif
+		dir $name -recurse | where {!@(dir -force $_.fullname)} | rm
 		Remove-Item $name -Recurse	
 	}
 	New-Item -Path $name -ItemType "directory"
