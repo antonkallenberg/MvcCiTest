@@ -43,12 +43,9 @@ task DeployWebToStagingFtp -depends BackupWebAtStagingFtp {
 }
 
 task BackupWebAtStagingFtp -depends MergeConfiguration {
-	$1 = Resolve-Path $ApplicationBackupRootWithDateLabel
-	$2 = Resolve-Path $ApplicationBackupRoot
-	
 	Set-FtpConnection $StagingFtpUri $StagingFtpUsername $StagingFtpPassword
-	
-	Get-FromFtp $1 $StagingFtpWwwRoot
+	$fullSourcePath = Resolve-Path $ApplicationBackupRootWithDateLabel
+	Get-FromFtp $fullSourcePath $StagingFtpWwwRoot
 	#Upload-ToFtp $2 $StagingFtpBackupRoot $StagingFtpUsername $StagingFtpPassword
 }
 
