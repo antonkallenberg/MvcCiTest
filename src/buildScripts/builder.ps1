@@ -1,5 +1,3 @@
-Set-ExecutionPolicy Unrestricted
-Set-ExecutionPolicy bypass
 import-module .\utilities.psm1
 import-module .\ftp.psm1
 
