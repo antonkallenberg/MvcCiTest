@@ -37,7 +37,7 @@ function Send-ToFtp {
 		$webClient = New-Object System.Net.WebClient
 		$webClient.Credentials = $script:Credentials
 		$uri = New-Object System.Uri($fullFtpPath)
-		Write-Host "uploading $item.FullName"
+		Write-Host "uploading $item"
         $webClient.UploadFile($uri, $item.FullName)
     }
 }
